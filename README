@@ -7,4 +7,26 @@ Install Steps
  * login to http://yoursite/admin/cms/
  * edit you site
 
-ICI TAGADA
+Apache Configuration
+--------------------
+
+Define your vhost like this:
+
+<VirtualHost *:80>
+        DocumentRoot /path/to/daizu/docroot/
+        ServerName www.yoursite.com
+        DirectoryIndex index.php
+        AddDefaultCharset UTF-8
+        <Directory />
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        <IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteCond %{REQUEST_FILENAME} !-d
+            RewriteCond %{REQUEST_FILENAME} !-l
+            RewriteRule ^(.*)$ /index.php?%{REQUEST_URI} [L,QSA]
+        </IfModule>
+        </Directory>
+</VirtualHost>
