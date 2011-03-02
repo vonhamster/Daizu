@@ -1,0 +1,22 @@
+<?php
+define('DAIZU_THEME', 'incorporated');
+define('DAIZU_SITE_NAME', 'Your Website Name');
+define('DAIZU_SITE_BASELINE', 'Your site rocks');
+define('DAIZU_DEBUG', false);
+define('DAIZU_BENCHMARK', false);
+define('DAIZU_URL_REWRITING', false);
+
+//Database Data Source Name.
+//This is a PDO DSN. Daizu has been tested under SQLite. Other databases may
+//work (MySQL ?).
+define('DAIZU_DB_DSN', 'sqlite:' .__DIR__.'/data/shozu.db');
+define('DAIZU_DB_USER', 'user');
+define('DAIZU_DB_PASS', 'pass');
+define('DAIZU_SEND_NOTIFICATIONS', true);
+define('DAIZU_NOTIFY_EMAIL', 'you@yourdomain.com');
+
+//This is used to encrypt data in cookies. Please change this.
+define('DAIZU_COOKIE_SALT', 'acme');
+
+// u can't touch this
+define('SHOZU_REGISTERED_APPS', 'cms,search');

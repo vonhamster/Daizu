@@ -1,0 +1,91 @@
+@baseFontSize : 16px;
+@magicNumber: 1.62;
+@linkBaseColor: blue;
+@linkHoverColor: orange;
+@linkVisitedColor: grey;
+
+.paraphStack{
+    font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+}
+.titleStack{
+    font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif," "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
+}
+.monoStack{
+    font-family:Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+}
+
+body{
+    .paraphStack;
+    font-size: @baseFontSize;
+    width:600px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+a{
+    color:@linkBaseColor;
+}
+a:hover{
+    color:@linkHoverColor;
+}
+a:visited{
+    color:@linkVisitedColor;
+}
+h1{
+    .titleStack;
+    font-size: @baseFontSize * @magicNumber;
+}
+
+hr{
+    border: 0 none;
+    height: 1px;
+    background-color:  #cecece;
+}
+
+pre{
+    .monoStack;
+    font-size: @baseFontSize / 1.2;
+}
+
+#head{
+    .titleStack;
+    font-size: @baseFontSize * @magicNumber * @magicNumber;
+    font-weight:bold;
+    text-align:center;
+    margin:20px;
+}
+.breadcrumb{
+    font-size: @baseFontSize / 1.2;
+}
+
+
+/* Pretty printing styles. Used with prettify.js. */
+.str { color: #080; }
+.kwd { color: #008; }
+.com { color: #800; }
+.typ { color: #606; }
+.lit { color: #066; }
+.pun { color: #660; }
+.pln { color: #000; }
+.tag { color: #008; }
+.atn { color: #606; }
+.atv { color: #080; }
+.dec { color: #606; }
+pre.prettyprint { padding: 10px; border: 1px solid #cecece; }
+
+@media print {
+    .str { color: #060; }
+    .kwd { color: #006; font-weight: bold; }
+    .com { color: #600; font-style: italic; }
+    .typ { color: #404; font-weight: bold; }
+    .lit { color: #044; }
+    .pun { color: #440; }
+    .pln { color: #000; }
+    .tag { color: #006; font-weight: bold; }
+    .atn { color: #404; }
+    .atv { color: #060; }
+}
+pre.prettyprint{
+    max-height:300px;
+    overflow: auto;
+}

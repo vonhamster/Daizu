@@ -1,0 +1,26 @@
+Command line interface to acl:
+
+// create new user identified by email with password
+php boot.php acl/cli/adduser/useremail@domain.com/userpassword
+// change user password
+php boot.php acl/cli/setpassword/useremail@domain.com/userpassword
+//give admin, developer and customer roles to user (create those if needed)
+php boot.php acl/cli/addroles/useremail@domain.com/admin,developer,customer
+// remove roles from user
+php boot.php acl/cli/removeroles/useremail@domain.com/admin,developer
+// list all roles
+php boot.php acl/cli/listroles
+// list all roles for given user
+php boot.php acl/cli/listroles/useremail@domain.com
+// list all users
+php boot.php acl/cli/listusers
+// list all users matching the pattern
+php boot.php acl/cli/listusers/%john%
+// give admin, backup, copy, whatever resources to admin role
+php boot.php acl/cli/addresources/admin/admin,backup,copy,whatever
+// remove resources
+php boot.php acl/cli/removeresources/admin/backup
+// list all resources
+php boot.php acl/cli/listresources
+// list all resources associated with given role
+php boot.php acl/cli/listresources/admin
