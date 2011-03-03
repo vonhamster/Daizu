@@ -29,10 +29,7 @@ class Application implements \shozu\Application
     {
         return array(
             'daizu.comment.new' => array(
-                array('\cms\models\Comment', 'notify')),
-            'daizu.page.postsave' => array(
-                array('\search\models\Hooks', 'Page')
-            )
+                array('\cms\models\Comment', 'notify'))
         );
     }
 
