@@ -174,6 +174,19 @@ $(document).ready(function(){
         $(this).fadeOut('fast');
         $(document).css('cursor','auto');
     });
+    $("a#clearcache").click(function(){
+        $.post("<?php echo $this->url('cms/admin/clearcache'); ?>", function(data){
+            if(data.status == 'ok')
+            {
+                alert("<?php echo $this->T('Cache cleared.'); ?>")    
+            }
+            else
+            {
+                alert("error.");
+            }
+        });
+        return false;
+    });
     Date.format = 'yyyy-mm-dd 00:00:00';
     $.dpText = {
         TEXT_PREV_YEAR		:	'<?php echo $this->T('Previous year'); ?>',

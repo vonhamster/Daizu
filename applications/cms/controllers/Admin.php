@@ -165,6 +165,17 @@ class Admin extends \shozu\Controller
         }
     }
 
+    public function clearcacheAction()
+    {
+        Auth::mustHave('cms.update');
+        foreach(Page::find() as $page)
+        {
+            $page->deleteAllCache();
+        }
+        header('content-type: application/json');
+        die(json_encode(array('status' => 'ok')));
+    }
+    
     public function savepageAction()
     {
         Auth::mustHave('cms.update');

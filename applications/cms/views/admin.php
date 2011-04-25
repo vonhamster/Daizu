@@ -72,7 +72,7 @@
         <div style="position: fixed;
              top:0px;
              right:30px;
-             width:300px;
+             width:350px;
              height:20px;
              overflow: hidden;
              border-bottom: 1px solid #cecece;
@@ -89,6 +89,7 @@
              padding:5px;
              ">
             <div style="font-size: 12px;">
+                <a id="clearcache" href="<?php echo $this->escape($this->url('cms/admin/clearcache')); ?>"><?php echo $this->T('Clear cache'); ?></a> -
                 <a href="<?php echo $this->escape($this->url('cms/admin/index')); ?>"><?php echo $this->T('Edit site'); ?></a> -
                 <a href="<?php echo $this->escape($this->url('cms/admin/resources')); ?>"><?php echo $this->T('Manage resources'); ?></a><!--
                 <a href="<?php echo $this->escape($this->url('cms/admin/users')); ?>"><?php echo $this->T('Manage users'); ?></a>-->

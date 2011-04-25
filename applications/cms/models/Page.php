@@ -60,7 +60,7 @@ class Page extends \shozu\ActiveBean
         ));
         $this->addColumn('make_static_file', array(
             'type' => 'boolean',
-            'default' => '0'
+            'default' => '1'
         ));
     }
 
@@ -338,38 +338,48 @@ class Page extends \shozu\ActiveBean
     public function deleteStaticFile()
     {
         $path = $this->makeStaticFilePath();
-        if(is_file($path))
+        if(is_file($path) && !$this->isForbiddenPath($path))
         {
             unlink($path);
         }
         if(substr($path, -11) == '/index.html')
         {
-            if(is_dir(dirname($path)))
+            $dir = dirname($path);
+            if(is_dir($dir) && !$this->isForbiddenPath($dir))
             {
-                rmdir(dirname($path));
+                rmdir($dir);
             }
         }
         return true;
     }
     
-    
-    public function makeStaticFilePath()
+    private function stripFinalSlash($in)
     {
+        if(substr($in, -1) == '/')
+        {
+            $in = substr($in, 0, -1);
+        }
+        return $in;
+    }
+    
+    
+    private function isForbiddenPath($path)
+    {
+        $path = $this->stripFinalSlash($path);
         $s = \shozu\Shozu::getInstance();
         $forbidden_paths = array(
+            $this->stripFinalSlash($s->document_root),
             $s->document_root . 'index.php',
             $s->document_root . 'static',
             $s->document_root . 'themes',
             $s->document_root . 'upload'
-        );
-        $file_path = $s->document_root . substr($this->getUrl(),1);
-        foreach ($forbidden_paths as $forbidden)
-        {
-            if(strpos($file_path,$forbidden))
-            {
-                throw new \Exception('forbidden path');
-            }
-        }
+        );   
+        return in_array($path, $forbidden_paths);
+    }
+    
+    public function makeStaticFilePath()
+    {
+        $file_path = \shozu\Shozu::getInstance()->document_root . substr($this->getUrl(),1);
         if(substr($file_path, -1) == '/')
         {
             $file_path .= 'index.html';
@@ -377,6 +387,10 @@ class Page extends \shozu\ActiveBean
         if(substr($file_path,-5) != '.html')
         {
             $file_path .= '/index.html';
+        }
+        if($this->isForbiddenPath($file_path))
+        {
+            throw new \Exception('forbidden path');
         }
         return $file_path;
     }

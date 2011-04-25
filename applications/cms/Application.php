@@ -19,6 +19,7 @@ class Application implements \shozu\Application
             '/admin/cms/savepage/'             => 'cms/admin/savepage',
             '/admin/cms/loadversion/:num/:num' => 'cms/admin/loadpageversion/$1/$2',
             '/admin/cms/commentpublishing/'    => 'cms/admin/togglecommentpublishing',
+            '/admin/cms/clearcache/'           => 'cms/admin/clearcache',
             '/cms/postcomment/'                => 'cms/index/postcomment',
             '/admin/cms/elfinderconnector/'    => 'cms/admin/elfinderconnector',
             '/admin/cms/elfinderstrings/'      => 'cms/admin/elfinderstrings'
@@ -100,7 +101,8 @@ class Application implements \shozu\Application
                 'Display' => 'Afficher',
                 'Indexing' => 'Indexation',
                 'Analyzer' => 'Analyseur',
-                'Apply to descendants' => 'Appliquer aux descendants'
+                'Apply to descendants' => 'Appliquer aux descendants',
+                'Clear cache' => 'Vider le cache'
             );
         }
         return array();
