@@ -99,6 +99,7 @@ class Admin extends \shozu\Controller
         {
             if(count($page->getChildren()) === 0 && $page->getUrl() != '/')
             {
+                $page->deleteAllCache();
                 $page->delete();
                 header('content-type: application/json');
                 die(json_encode(array('status' => 'ok')));

@@ -41,7 +41,21 @@ class Index extends \shozu\Controller
                 $this->assignToLayout('description', $page->getSeo_description() ?: '');
                 $this->assignToLayout('keywords', $page->getSeo_keywords() ?: '');
                 $this->assignToLayout('author', $page->getAuthor() ?: '');
-                $this->display($template_path, array('page' => $page));
+                
+                $output = $this->render($template_path, array('page' => $page));
+                if($page->getMake_static_file())
+                {
+                    $file_path = $page->makeStaticFilePath();
+                    if(!is_file($file_path))
+                    {
+                        if(!is_dir(dirname($file_path)))
+                        {
+                            mkdir(dirname($file_path), 0777, true);
+                        }
+                        file_put_contents($file_path, $output);
+                    }
+                }
+                die($output);
             }
             else
             {

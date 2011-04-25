@@ -58,6 +58,10 @@ class Page extends \shozu\ActiveBean
         $this->addColumn('analyzer', array(
             'default' => 'standard'
         ));
+        $this->addColumn('make_static_file', array(
+            'type' => 'boolean',
+            'default' => '0'
+        ));
     }
 
     /**
@@ -321,11 +325,62 @@ class Page extends \shozu\ActiveBean
      */
     public function deleteAllCache()
     {
+        $this->deleteStaticFile();
         self::getCache()->delete(self::mkObjectCacheKey($this->getUrl()));
         self::getCache()->delete($this->mkViewCacheKey());
         return true;
     }
-
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function deleteStaticFile()
+    {
+        $path = $this->makeStaticFilePath();
+        if(is_file($path))
+        {
+            unlink($path);
+        }
+        if(substr($path, -11) == '/index.html')
+        {
+            if(is_dir(dirname($path)))
+            {
+                rmdir(dirname($path));
+            }
+        }
+        return true;
+    }
+    
+    
+    public function makeStaticFilePath()
+    {
+        $s = \shozu\Shozu::getInstance();
+        $forbidden_paths = array(
+            $s->document_root . 'index.php',
+            $s->document_root . 'static',
+            $s->document_root . 'themes',
+            $s->document_root . 'upload'
+        );
+        $file_path = $s->document_root . substr($this->getUrl(),1);
+        foreach ($forbidden_paths as $forbidden)
+        {
+            if(strpos($file_path,$forbidden))
+            {
+                throw new \Exception('forbidden path');
+            }
+        }
+        if(substr($file_path, -1) == '/')
+        {
+            $file_path .= 'index.html';
+        }
+        if(substr($file_path,-5) != '.html')
+        {
+            $file_path .= '/index.html';
+        }
+        return $file_path;
+    }
+    
     /**
      *
      * @return string
@@ -490,6 +545,12 @@ class Page extends \shozu\ActiveBean
      */
     protected static function isNotFrameworkRouteValidator($in)
     {
+        if(in_array($in,array(
+            '/index.php','/static/','/static','/themes/','/themes','/upload/','/upload'
+        )))
+        {
+            return false;
+        }
         return !in_array($in, \shozu\Shozu::getInstance()->routes);
     }
 
