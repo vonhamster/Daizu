@@ -43,7 +43,8 @@ class Index extends \shozu\Controller
                 $this->assignToLayout('author', $page->getAuthor() ?: '');
                 
                 $output = $this->render($template_path, array('page' => $page));
-                
+
+                /*
                 if($page->getMake_static_file())
                 {
                     $file_path = $page->makeStaticFilePath();
@@ -56,6 +57,8 @@ class Index extends \shozu\Controller
                         file_put_contents($file_path, $output);
                     }
                 }
+                 * 
+                 */
 
                 die($output);
             }
