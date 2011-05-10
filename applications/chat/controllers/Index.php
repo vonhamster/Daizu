@@ -41,14 +41,15 @@ class Index extends \shozu\Controller
 
     public function getfileAction($hash)
     {
-        Auth::mustHave('chat.read');
+        //Auth::mustHave('chat.read');
         $upload = Upload::findOne('hash = ?', array($hash));
         if($upload)
         {
             session_write_close();
+            ob_end_flush();
             $path = \shozu\Shozu::getInstance()->project_root . 'applications/chat/files/uploads/' . $upload->hash;
             header('content-type: ' . $upload->mime);
-            header('Content-Disposition: attachment; filename="' . $upload->name . '"');
+            header('Content-Disposition: attachment; filename="' . \shozu\Inflector::fileName($upload->name) . '"');
             header('Content-Length: ' . filesize($path));
             readfile($path);
         }
@@ -77,7 +78,14 @@ class Index extends \shozu\Controller
                 $user = Auth::getUser();
                 $post = new Post;
                 $post->setUser_id($user->getId());
-                $post->setMessage('[url:'.$s->url('chat/index/getfile', array($hash)).'|'.$upload->getName().']');
+                if(strstr($upload->getMime(), 'image/'))
+                {
+                    $post->setMessage('[img:'.$s->url('chat/index/getfile', array($hash)).']');
+                }
+                else
+                {
+                    $post->setMessage('[url:'.$s->url('chat/index/getfile', array($hash)).'|'.$upload->getName().']');
+                }
                 $post->save();
             }
         }
