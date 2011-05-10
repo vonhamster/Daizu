@@ -4,6 +4,7 @@ use \acl\lib\BasicAuth as Auth;
 use \acl\models\User as User;
 use \chat\models\Post as Post;
 use \chat\models\Url as Url;
+use \chat\models\Upload as Upload;
 class Exception extends \Exception{}
 
 class Index extends \shozu\Controller
@@ -38,6 +39,51 @@ class Index extends \shozu\Controller
         die;
     }
 
+    public function getfileAction($hash)
+    {
+        Auth::mustHave('chat.read');
+        $upload = Upload::findOne('hash = ?', array($hash));
+        if($upload)
+        {
+            session_write_close();
+            $path = \shozu\Shozu::getInstance()->project_root . 'applications/chat/files/uploads/' . $upload->hash;
+            header('content-type: ' . $upload->mime);
+            header('Content-Disposition: attachment; filename="' . $upload->name . '"');
+            header('Content-Length: ' . filesize($path));
+            readfile($path);
+        }
+        die;
+    }
+    
+    public function uploadAction()
+    {
+        if(isset($_FILES['up']) && $_FILES['up']['error'] == 0)
+        {
+            Auth::mustHave('chat.write');
+            $s = \shozu\Shozu::getInstance();
+            $hash = sha1_file($_FILES['up']['tmp_name']);
+            $destination = $s->project_root . 'applications/chat/files/uploads/' . $hash;
+            if(move_uploaded_file($_FILES['up']['tmp_name'], $destination))
+            {            
+                $upload = Upload::findOne('hash = ?', array($hash));
+                if(!$upload)
+                {
+                    $upload = new Upload;
+                }
+                $upload->setHash($hash);
+                $upload->setName($_FILES['up']['name']);
+                $upload->setMime($_FILES['up']['type']);
+                $upload->save();
+                $user = Auth::getUser();
+                $post = new Post;
+                $post->setUser_id($user->getId());
+                $post->setMessage('[url:'.$s->url('chat/index/getfile', array($hash)).'|'.$upload->getName().']');
+                $post->save();
+            }
+        }
+        $this->display('upload');
+    }
+    
     public function postAction()
     {
         Auth::mustHave('chat.write');

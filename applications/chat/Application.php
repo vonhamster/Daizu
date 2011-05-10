@@ -8,7 +8,9 @@ class Application implements \shozu\Application
             '/chat/' => 'chat/index/index',
             '/chat/post/' => 'chat/index/post',
             '/chat/passthru/' => 'chat/index/proxy',
-            '/chat/passthru/:any' => 'chat/index/proxy/$1'
+            '/chat/passthru/:any' => 'chat/index/proxy/$1',
+            '/chat/upload/' => 'chat/index/upload',
+            '/chat/getfile/:any' => 'chat/index/getfile/$1'
         );
     }
     public static function getObservers()
@@ -18,6 +20,13 @@ class Application implements \shozu\Application
 
     public static function getTranslations($lang_id)
     {
+        if($lang_id == 'fr')
+        {
+            return array(
+                'Share' => 'Partager',
+                'Send a file' => 'Envoyer un fichier'
+            );
+        }
         return array();
     }
 }

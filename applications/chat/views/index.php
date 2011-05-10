@@ -89,9 +89,7 @@
                 var refreshInterval = setInterval('refresh()',2000);
             });
         </script>
-
         <style type="text/css">
-
             *{margin:0;padding:0;}
             body{font-family:Geneva,Arial,sans-serif;font-size:14px;}
             a{color:#606060;text-decoration:none;border-bottom:1px dotted #606060;}
@@ -111,6 +109,11 @@
         </style>
     </head>
     <body>
+        <div style="position:fixed;background-color: white;height: 35px;overflow:hidden;">
+            <iframe src="<?php echo $this->url('chat/index/upload'); ?>" style="border:none;width:500px;">
+              <p>Your browser does not support iframes.</p>
+            </iframe>
+        </div>
         <div id="availableUsers" style="position:fixed;top:0;right:20px;padding:5px;color:gray;">
             John, Jack, Peter, Raoul, Peter.
         </div>
