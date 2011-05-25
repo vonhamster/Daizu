@@ -2,7 +2,7 @@ Install Steps
 -------------
 
  * copy conf.php.dist to conf.php, edit your settings
- * at the project directory run boot.php php cms/cli/install
+ * at the project directory run "php boot.php cms/cli/install"
  * carefully keep the generated admin password
  * login to http://yoursite/admin/cms/
  * edit you site
